@@ -46,12 +46,12 @@ ylabel('|Y(f)|');
 xlabel('Frekvens {\itf} [Hz]');
 
 % 3. Identify t2-t1
-[r, lags] = xcorr(y);
+[z, lags] = xcorr(y);
 lags = lags/Fs;
 time = (lags >= -0.1);
 figure;
-plot(lags(time), r(time));
-ylabel('r(\tau)');
+plot(lags(time), z(time));
+ylabel('z(\tau)');
 xlabel('Tid {\it\tau} [s]');
 tau = 0.430; % From the plot
 
@@ -62,18 +62,18 @@ for i = N_tau + 1 : N
 end
 
 % 5. Demodulate y1
-[b, a] = butter(10, 5000/(Fs/2), 'low');
+[b, a] = butter(10, B/(Fs/2), 'low');
 d = 1.1; % Deduced by trial and error listening to the sounds
 I = 2*cos(2*pi*Fc(1)*taxis + d)';
 Q = 2*sin(2*pi*Fc(1)*taxis + d)';
-y_1I = filter(b, a, y_1.*I); 
-y_1Q = -1*filter(b, a, y_1.*Q);
-y_1I = decimate(y_1I, 10);
-y_1Q = decimate(y_1Q, 10);
+x_1I = filter(b, a, y_1.*I); 
+x_1Q = -1*filter(b, a, y_1.*Q);
+x_1I = decimate(x_1I, 10);
+x_1Q = decimate(x_1Q, 10);
 
 pause;
 close all;
 
 % 6. Play each sound using the commands below
-% soundsc(y_1I, Fs/10);
-% soundsc(y_1Q, Fs/10);
+% soundsc(x_1I, Fs/10);
+% soundsc(x_1Q, Fs/10);

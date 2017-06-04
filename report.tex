@@ -50,7 +50,7 @@
 
 \author{Matti Lundgren \\ matlu703, xxyyzz-ååää }
 
-\date{19 maj, 2017}
+\date{\today}
 
 \begin{document}
 
@@ -60,31 +60,32 @@
 
 \section{Inledning}
 
-Laborationen går ut på att demodulera en smalbandig, I/Q-modulerad signal som består av hörbart ljud. Det är givet att den utsända signalen har utseendet $x(t)=x_I(t)cos(2\pi f_ct)-x_Q(t)sin(2\pi f_ct)+w(t)+z(t)$ där $w(t) = 0.001(cos(2\pi f_1t) + cos(2\pi f_2t))$ och $z(t)$ är en summa av signaler som sänds på andra bärfrekvenser. 
+Laborationen går ut på att demodulera en smalbandig I/Q-modulerad signal där respektive I/Q-komponent bär en melodi följt av ett talspråk i form av hörbart ljud. 
 
-På grund av ekoeffekter blir den mottagna signalen $y(t)=x(t-\tau_1)+0,9x(t-\tau_2)$. Termerna är förskjutna med $\tau_1$ sekunder då det är tiden det tar för signalen att nå mottagaren. Den andra termen är resultatet av ekot som orsakar en energiförlust på 10\% och som bidrar med en tidsförskjutning på $\tau_2$ - $\tau_1$ sekunder.
+Det är givet att den utsända signalen har utseendet $x(t)=x_I(t)\cos(2\pi f_ct)-x_Q(t)\sin(2\pi f_ct)+w(t)+z(t)$ där $w(t) = 0{,}001(\cos(2\pi f_1t) + \cos(2\pi f_2t))$ och $z(t)$ är en summa av signaler som sänds på andra bärfrekvenser. På grund av ekoeffekter blir den mottagna signalen $y(t)=x(t-\tau_1)+0{,}9x(t-\tau_2)$.
 
-Annan relevant information given av laborationshanledningen listas nedan:
+Annan relevant information som är given av laborationshandledningen listas nedan:
 \begin{itemize}
 \item Bärfrekvensen $f_c$ är någon av följande frekvenser: 18, 37, 56, 75, 94, 113, 132, 151 kHz.
 \item $f_1$ och $f_2$ är multiplar av 1 Hz och överlappar inte med någon av de burna signalerna.
 \item $\tau_2>\tau_1$, $\tau_2-\tau_1<500$ ms och $\tau_2-\tau_1$ är en multipel av 1 ms.
-\item Då signalerna ska bestå av hörbart ljud sätts deras intressanta bandbredd till $B=20$ kHz.
 \end{itemize}
 
 \section{Metod}
 
-För att genomföra laborationen användes, utöver laborationshandledningen, kursboken \textit{Signals, Information and Communications} (utkast 14273) och Matlab. Programkoden bifogas på sida 4 och de plottade figurerna på sida 3.
 
-$y(t)$s amplitudspektrum plottas i figur 1. Ur spektrumet identiferas tre möjliga bärfrekvenser; 56, 94 och 151 kHz. De burna signalerna benämns hädanefter som $y_1(t)$, $y_2(t)$ respektive $y_3(t)$. Signalerna erhålls genom att bandpassfiltrera $y(t)$ runt respektive bärfrekvens med bandbredden $B$. De plottas i figur 2 där $y_1(t)$ ser ut att vara nyttosignalen.
 
-$w(t)$ ser ut att existera runt 46,5 kHz, därför plottas $y(t)$s amplitudspektrum runt denna frekvens, se figur 3. Då det är känt att $f_1$ och $f_2$ är multiplar av 1 Hz går det att dra slutsatsen att $f_1=46500$ Hz och att $f_2=46501$ Hz.
+För att genomföra laborationen används, utöver laborationshandledningen, kursboken \textit{Signals, Informations and Communications} (utkast 14273) och Matlab. \linebreak Programkoden bifogas på sida 4 och de plottade figurerna på sida 3.
 
-För att ta reda på tidsfördröjningen $\tau_2-\tau_1$ används tidsestimering med korskorrelation som beskrivs av kursbokens fjärde kapitel. $y(t)$ korskorrelerat med sig själv benämns som $r(\tau)$ och plottas i figur 4. Tidsfördröjningen ges av det $\tau$ som bortsett från den första toppen ger $r(\tau)$ sitt största värde. Med hjälp av figur 4 identifieras det sökta $\tau$ till att vara 430 ms vilket är troligt då det är känt att $\tau_2-\tau_1 < 500$ ms och att differensen är en multipel av 1 ms. Slutsatsen blir att $\tau_0$ är tidsfördröjningen orsakat av ekot, det vill säga $\tau_0=\tau_2-\tau_1=430$ ms.
+$y(t)$s amplitudspektrum plottas i figur 1. Ur spektrumet identifieras tre möjliga bärfrekvenser; 56, 94 och 151 kHz. De burna signalerna benämns hädanefter som $y_1(t)$, $y_2(t)$ respektive $y_3(t)$. Signalerna erhålls genom att bandpassfiltrera $y(t)$ runt respektive bärfrekvens. Då den sökta signalen består av hörbart ljud sätts den intressanta bandbredden till $B=20$ kHz. Signalerna plottas i figur 2. Av figuren att döma ser $y_1(t)$ ut att vara den sökta nyttosignalen i och med att den består av två tydliga delar som skiljs åt av en paus. $y_2(t)$ ser ut som brus och den senare delen av $y_3(t)$ ser för periodisk ut för att vara ett talat ordspråk.
 
-Ekot annulleras med hjälp av ekvationen $\hat{y}(t)=y(t) - 0,9\hat{y}(t-\tau_0)$ för $t > \tau_0$. Ekvationen för $\hat{y}(t)$ härleds ur ekvationen för $x(t)$ genom att bortse från tidsfördröjningen $\tau_1$ som orsakas av avståndet mellan sändare och mottagare. Notera att $\hat{y}(t)$ är den ekofria signalen och att $y(t)$ är fri från eko då $t < \tau_0$. Då den sökta signalen tros vara $y_1(t)$ behandlas endast den. 
+$w(t)$ ser ut att existera runt 46{,}5 kHz. $y(t)$s amplitudspektrum plottas därför runt denna frekvens i figur 3. Då det är känt att $f_1$ och $f_2$ är multiplar av 1 Hz går det med figuren att dra slutsatsen att $f_1=46500$ Hz och att $f_2=46501$ Hz.
 
-Nu återstår demoduleringen. Ur kursbokens andra kapitel framgår det att $\hat{y}_I(t)=H^{LP}_{B/2}\{2\hat{y}(t)cos(2\pi f_{c}t+\delta)\}$ och att $\hat{y}_Q(t)=H^{LP}_{B/2}\{-2\hat{y}(t)sin(2\pi f_{c}t+\delta)\}$. Då $\hat{y}(t)$ i det här fallet är en ekofri variant av $y_1(t)$ är bärfrekvensen $f_c=56$ kHz. Signalen lågpassfiltreras med lägre bandbredd än $B/2$ för att minimera oönskat ljud. En fasvridning kan behöva kompenseras för, den representeras av $\delta$ i demoduleringsekvationerna. Efter prövning sätts $\delta=1.1$ radianer vilket verkar minimera de talade ordspråkens överlapp.
+För att ta reda på tidsfördröjningen $\tau_0=\tau_2-\tau_1$ används tidsestimering med autokorrelation. Autokorrelationen definieras av $z(\tau)=\int_{-\infty}^{\infty} y(t)y(t+\tau)\mathop{dt}$. I och med att $z(\tau)$ blir större desto mer $y(t)$ liknar $y(t+\tau)$ förväntas en topp i $\tau=0$. Tidsfördröjningen förväntas vara given av det positiva $\tau$ som bortsett från toppen vid $\tau=0$ ger $z(\tau)$ sin största topp. Detta på grund av att vid detta $\tau$ är $x(t)$ i fas med sin tidsfördröjda kopia. $z(\tau)$ plottas i figur 4 och med hjälp av figuren går det att dra slutsatsen att ekots tidsfördröjning är $\tau_0=0{,}430$ ms. Detta är rimligt då det är känt att $\tau_0<500$ ms och att $\tau_0$ är en multipel av 1 ms.
+
+Ekot filtreras bort med hjälp av ekvationen $x(\hat{t})=y(\hat{t})-0{,}9x(\hat{t}-\tau_0)$ för $\hat{t} > \tau_0$. Ekvationen härleds från ekvationen för $y(t)$ genom att sätta $\hat{t}=t+\tau_1$. Notera att $x(t)$ är den ekofria signalen och att $y(t)$ är fri från eko då $t < \tau_0$ vilket gör det möjligt att rekursivt filtrera bort ekot. Då den sökta signalen tros vara $y_1(t)$ behandlas endast den. Den ekofria varianten av $y_1(t)$ benämns hädanefter som $x_1(t)$.
+
+Nu återstår demodulering. Ur kursbokens andra kapitel härleds uttrycken $x_{1I}(t)=\mathcal{H}^{LP}_{B/2}\{2x_1(\hat{t})\cos(2\pi f_{c}t+\delta)\}$ och $x_{1Q}(t)=\mathcal{H}^{LP}_{B/2}\{-2x_1(\hat{t})\sin(2\pi f_{c}t+\delta)\}$. Notera att $x_1(\hat{t})$ är tidsförskjuten eftersom $\hat{t}=t+\tau_1$. Tidsförskjutningen orsakar en fasvridning som i sin tur orsakar en blandning av I- och Q-komponenterna. Denna fasvridning behöver därför kompenseras för och representeras av $\delta$ i demoduleringsekvationerna. Som tidigare känt är $f_c=56$ kHz. Efter prövning sätts $\delta=1{,}1$ rad vilket verkar minimera talets överlapp i respektive komponent.
 
 \section{Resultat}
 
@@ -113,12 +114,12 @@ Den sökta informationen är:
 \section*{ }
 \begin{figure}[H]
 \includegraphics[trim={3.8cm 8cm 4.8cm 9cm},clip,width=8cm]{Y_46_5kHz.pdf}
-\caption{Amplitudspektrum för $y(t)$ runt 46.5 kHz}
+\caption{Amplitudspektrum för $y(t)$ runt $46{,}5$ kHz}
 \end{figure}
 
 \begin{figure}[H]
 \includegraphics[trim={3.8cm 8cm 4.8cm 9cm},clip,width=8cm]{xcorr.pdf}
-\caption{$y(t)$ korskorrelerat med sig själv med betoning på $\tau$ för den högsta sidotoppen}
+\caption{Autokorrelation av $y(t)$}
 \end{figure}
 
 \clearpage
